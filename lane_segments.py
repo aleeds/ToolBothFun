@@ -24,7 +24,7 @@ class LaneSegment:
     
     :arg adjacent_lanes 
         These are the lanes next the lane object, with costs
-    :type List[Tuple(LaneSegment, double)]
+    :type List[(LaneSegment, double)]
     
     :arg lane_end 
         What it can progress into.
