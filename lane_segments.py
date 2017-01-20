@@ -14,26 +14,28 @@ class LaneSegment:
           to.
         Toll Booths
         End of the road
-    
-     
-    
-    
+        
     :arg lane_spots 
         These are the places a car could be.
     :type List[Car OR 0]
     
-    :arg adjacent_lanes 
-        These are the lanes next the lane object, with costs
-    :type List[(LaneSegment, double)]
+    :arg left 
+        LaneSegment to the Left, with costs (or nill)
+    :type (LaneSegment, int)
     
+    :arg right 
+        LaneSegment to the right, with costs (or nill)
+    :type (LaneSegment, int)
+
     :arg lane_end 
-        What it can progress into.
-    :type List[(LaneSegment, int)] OR List[TollBooth] OR 0
+        What it can progress into. This is needed in case it can't go 'forward' blindly.
+        (Say left or right only, etc).
+    :type List[(LaneSegment, int)] OR TollBooth OR 0
     """
-    def __init__(self, lane_spots, adjacent_lanes, lane_end):
+    def __init__(self, lane_spots, left, right, lane_end):
         self.lane_spots = lane_spots
-        self.adjacent_lanes = adjacent_lanes
+        self.left = left
+        self.right = right
+        self.right = right
         self.lane_end = lane_end
-
-
 
