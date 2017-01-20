@@ -19,4 +19,3 @@ class TollBooth:
         self.maximum_speed = maximum_speed
         self.active = active
         self.occupied = False
-%history -f tollBooth.py
