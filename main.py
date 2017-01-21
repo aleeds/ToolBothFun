@@ -138,7 +138,7 @@ def advancement(road, actions):
         car.lane_spot_index = [a,b]
         road[car.lane_spot_index[0]][car.lane_spot_index[1]].car = car
 
-from copy import copy
+
 timeSteps = 100
 roads = (road, copy(road))
 curRoad = 0
