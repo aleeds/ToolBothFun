@@ -52,7 +52,7 @@ class Car:
         
     # add a variable for self driving cars for them being more likely
     # to prefer the truly best action.
-    def move(self, lane):
+    def move(self, road):
         return Action(center, self.speed, 0)
 
 
@@ -126,6 +126,7 @@ class Car:
         return points
     
     def get_adjacent_cars_likely_destinations(self, lane):
+        return "Incomplete"
         
  
     def evaluate_action(self, lane, action):
