@@ -28,9 +28,8 @@ class LaneSegment:
     :type (LaneSegment, int)
 
     :arg lane_end 
-        What it can progress into. This is needed in case it can't go 'forward' blindly.
-        (Say left or right only, etc).
-    :type List[(LaneSegment, int)] OR TollBooth OR 0
+        What it can progress into. 0 if it ends
+    :type (LaneSegment, int) OR TollBooth OR 0
     """
     def __init__(self, lane_spots, left, right, lane_end):
         self.lane_spots = lane_spots
