@@ -49,7 +49,7 @@ class Car:
     # add a variable for self driving cars for them being more likely
     # to prefer the truly best action.
     def move(self, lane):
-       return Action(center, 0, 0)
+        return Action(center, self.speed, 0)
 
 
     def all_actions(self):
