@@ -71,6 +71,17 @@ for x in range(0,lenOfLane):
     for y in range(0,5):
         lstToAdd.append(None)
     road.append(lstToAdd)
+
+t = len(road[0])
+for i in road:
+    if len(i) != t:
+        print "\n\n\nNOT RECTANGLE\n\n\n"
+        t = -1
+        break
+
+if t == len(road[0]):
+    print "\n\nRECTANGLE\n\n"
+
 #"""
 
 """
@@ -182,7 +193,10 @@ def printRoad(road):
 
 cars = [Car(0, 0, 1, 3, -10, 0, 0, [3,1]), Car(0, 0, 1, 3, -10, 0, 0, [0, 1]),
         Car(0, 0, 1, 3, -10, 0, 0, [5,1]), Car(0, 0, 1, 3, -10, 0, 0, [7, 1]),
-        Car(0, 0, 1, 3, -10, 0, 0, [9,1]), Car(0, 0, 1, 3, -10, 0, 0, [11, 1])]
+        Car(0, 0, 1, 3, -10, 0, 0, [9,1]), Car(0, 0, 1, 3, -10, 0, 0, [11, 1]),
+        Car(0, 0, 1, 3, -10, 0, 0, [0,0]), Car(0, 0, 1, 3, -10, 0, 0, [1, 2]),
+        Car(0, 0, 1, 3, -10, 0, 0, [0,4]), Car(0, 0, 1, 3, -10, 0, 0, [0, 6]),
+        Car(0, 0, 1, 3, -10, 0, 0, [3,5]), Car(0, 0, 1, 3, -10, 0, 0, [1, 7])]
 for car in cars:
    road[car.index[0]][car.index[1]].car = car
 printRoad(road)
