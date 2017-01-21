@@ -16,9 +16,9 @@ class RoadNode:
 
     def __str__(self):
         if self.car != None:
-            return "<" + str(self.car) + "," + str(self.leftWeight) + "," + str(self.midWeight) + "," + str(self.rightWeight) + ">"
+            return "<" + str(self.car) + "," + str((self.leftWeight, self.midWeight,self.rightWeight)) + ">"
         else:
-            return str((self.leftWeight, self.midWeight, self.rightWeight))
+            return "< Road    " + str((self.leftWeight, self.midWeight, self.rightWeight)) + ">"
 
 
 road = []
@@ -67,9 +67,9 @@ def printRoad(road):
 
 #car: speed, recklessness[0,1], following_distance[1,5], acceleration[1,3], braking, law_abiding_speed[-2,2],law_abiding_lane_changes[0,10],index
 
-cars = [Car(2, 0, 1, 5, -10, 2, 0, [3,1]), Car(1, 0, 1, 5, -10, 5, 0, [0, 1]),
-        Car(2, 0, 1, 5, -10, 2, 0, [5,1]), Car(1, 0, 1, 5, -10, 5, 0, [7, 1]),
-        Car(2, 0, 1, 5, -10, 2, 0, [9,1]), Car(1, 0, 1, 5, -10, 5, 0, [11, 1])]
+cars = [Car(0, 0, 1, 3, -10, 0, 0, [3,1]), Car(0, 0, 1, 3, -10, 0, 0, [0, 1]),
+        Car(0, 0, 1, 3, -10, 0, 0, [5,1]), Car(0, 0, 1, 3, -10, 0, 0, [7, 1]),
+        Car(0, 0, 1, 3, -10, 0, 0, [9,1]), Car(0, 0, 1, 3, -10, 0, 0, [11, 1])]
 for car in cars:
    road[car.index[0]][car.index[1]].car = car
 printRoad(road)
@@ -84,7 +84,7 @@ def advancement(road, actions):
         b = car.index[1] + carAction.laneChange
         car.index = [a,b]
 
-        print (a,b)
+        print (carAction.speedChange, carAction.laneChange)
         road[car.index[0]][car.index[1]].car = car
 
 timeSteps = 100
