@@ -35,6 +35,7 @@ class LaneSegment:
         self.lane_spots = lane_spots
         self.left = left
         self.right = right
-        self.right = right
         self.lane_end = lane_end
+    def __str__(self):
+        return str(self.lane_spots)
 
