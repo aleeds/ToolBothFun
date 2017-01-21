@@ -47,7 +47,7 @@ class Car:
         self.law_abiding_speed = law_abiding_speed
         self.law_abiding_lane_changes = law_abiding_lane_changes
         
-        self.lane_spot_index = lane_spot_index
+        self.index = index
         self.action_list = self.all_actions()
         
     # add a variable for self driving cars for them being more likely

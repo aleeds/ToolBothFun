@@ -65,7 +65,7 @@ def printRoad(road):
 
 
 
-#car: speed, recklessness[0,1], following_distance[1,5], acceleration[1,3], braking, law_abiding_speed[-2,2],law_abiding_lane_changes[0,10],lane_spot_index
+#car: speed, recklessness[0,1], following_distance[1,5], acceleration[1,3], braking, law_abiding_speed[-2,2],law_abiding_lane_changes[0,10],index
 
 cars = [Car(2, 0, 1, 1, -10, 0, 0, [0,0]), Car(1, 0, 1, 1, -10, 0, 0, [0, 1])]
 road[0][0].car = cars[0]
@@ -77,12 +77,12 @@ def advancement(road, actions):
     for action in actions:
         car = action[0]    
         carAction = action[1]
-        road[car.lane_spot_index[0]][car.lane_spot_index[1]].car = None
-        a = car.lane_spot_index[0] + carAction.speedChange          
-        b = car.lane_spot_index[1] + carAction.laneChange
+        road[car.index[0]][car.index[1]].car = None
+        a = car.index[0] + carAction.speedChange          
+        b = car.index[1] + carAction.laneChange
         print (a,b)
-        car.lane_spot_index = [a,b]
-        road[car.lane_spot_index[0]][car.lane_spot_index[1]].car = car
+        car.index = [a,b]
+        road[car.index[0]][car.index[1]].car = car
 
 
 timeSteps = 100
