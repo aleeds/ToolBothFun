@@ -135,11 +135,6 @@ class Car:
 
         return points
     
-<<<<<<< HEAD
-    def get_adjacent_cars_likely_destinations(self, lane):
-        return "Incomplete"
-        
-=======
     def get_adjacent_cars_likely_destinations(self, board):
          # find rad 2 cars.
          pos_s = [(x,y) for x in range(-2,3) for y in range(-2,3)
