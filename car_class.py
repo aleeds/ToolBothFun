@@ -126,7 +126,7 @@ class Car:
         return points
     
     def get_adjacent_cars_likely_destinations(self, lane):
-        
+                 
  
     def evaluate_action(self, lane, action):
         # returns the utility of the action, evaluating it relative
