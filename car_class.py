@@ -19,6 +19,8 @@ class Action:
         self.laneChange = laneChange
         self.speedChange = speedChange
         self.stopTime = stopTime
+    def __repr__(self):
+        return "Action(" + str(self.laneChange) + ", " + str(self.speedChange) + ")"
 
 # speed change can be either max acceleration down to full stop. 
 # A full stop is considered an accident.
@@ -31,7 +33,7 @@ class Car:
        following_distance in [1, 5]
        acceleration in [1, 3]
        law_abiding_speed in [-2,2]
-       law abiding_lane_changes in [0, 1]
+       law abiding_lane_changes in [0, 10]
     """
     
     def __init__(self, speed, recklessness, following_distance,
@@ -46,18 +48,25 @@ class Car:
         self.law_abiding_lane_changes = law_abiding_lane_changes
         
         self.lane_spot_index = lane_spot_index
+        self.action_list = self.all_actions()
+        
     # add a variable for self driving cars for them being more likely
     # to prefer the truly best action.
     def move(self, lane):
-       return Action(center, 0, 0)
+       return Action(center, 1, 0)
 
+
+    def return_ten_best_actions(self, lane):
+        ls = [(action, self.evaluate_action_blind(lane, action))
+              for action in self.action_list]
+        ls = sorted(ls, key = lambda (a,b) : -b)
+        return ls[0:10]
 
     def all_actions(self):
-        # return every possible action, even if it has low utility. 
-        # Might eventually want to save this to a variable, no reason
-        # to do it multiple times. 
-        return "Incomplete"
-
+        all_speeds = range(self.speed + self.acceleration + 1)
+        all_lanes = [-1,0,1]
+        return [Action(lane, speed, 0) for lane in all_lanes for speed in all_speeds]
+    # need to redo speed calculations, action_speed or whatever is the NEW SPEED
     # need to incorporate the various parameters into the model
     def evaluate_action_blind(self, lane, action):
         """
@@ -69,33 +78,23 @@ class Car:
         #        Prefer staying in the lane unless the lane they are in
         #          terminates soon.
         points = 0
-        print("The first points, set to 0")
-        print(points)
         if action.laneChange == center:
             points += 10
 
-        print("Center points added")
-        print(points)
         # Next to 'ifs' compute the 'cost' to switch to the lane
         if action.laneChange == right:
-            points += 8 / (1 + lane.right[1])
-        print("Points added for moving right ")
-        print(points)
+            points += 8 / (2 ** lane.right[1])
 
         if action.laneChange == left:
-            points += 8 / (1 + lane.left[1])
-        
-        print("Points for moving left")
-        print(points)
+            points += 8 / (2 ** lane.left[1])
+        # add a bit about -50 if the lane change cost is greater than lane_change_abiding
         desired_speed = 6 + self.law_abiding_speed
         after_action_speed = self.speed + action.speedChange
         # penalized for not being at the speed you like. 
-        # The *5 is to make sure that people want to change lanes if 
+        # The *1 is to make sure that people want to change lanes if 
         # they go too slow. Might want to make that a personality variable.
-        points += (6 - abs(desired_speed - after_action_speed)) * 5
+        points += (6 - abs(desired_speed - after_action_speed)) * 1
 
-        print("Points for speed")
-        print(points)
 
         # will never ever slam into the end of a lane
         if after_action_speed == 0:
@@ -104,7 +103,7 @@ class Car:
             else:
                 return -15
         # gets the lane to be the right one
-        lane_approaching = lane
+        lane_approaching = (lane, 0)
         if action.laneChange == right:
             lane_approaching = lane.right
         elif action.laneChange == left:
@@ -113,18 +112,21 @@ class Car:
         # is a good place to be.
         if lane_approaching == 0:
             return -10001
-        if lane_approaching.lane_end == 0 and \
+        if lane_approaching[0].lane_end == 0 and \
            len(lane.lane_spots) < after_action_speed + self.lane_spot_index:
                return -10002
         # if they are near the end of a lane, they get penalities, and want to leave it.
-        if lane_approaching.lane_end == 0 and \
-           len(lane.lane_spots) < 3 * (after_action_speed + self.lane_spot_index):
-               points += -3 
-        if lane_approaching.lane_end == 0 and \
-           len(lane.lane_spots) < 2 * (after_action_speed + self.lane_spot_index):
-               points += -5
+        if lane_approaching[0].lane_end == 0 and \
+           len(lane.lane_spots) < 2 * after_action_speed + self.lane_spot_index:
+               points += -5 
+        if lane_approaching[0].lane_end == 0 and \
+           len(lane.lane_spots) < 3 * after_action_speed + self.lane_spot_index:
+               points += -3
 
         return points
+    
+    def get_adjacent_cars_likely_destinations(self, lane):
+        
  
     def evaluate_action(self, lane, action):
         # returns the utility of the action, evaluating it relative
