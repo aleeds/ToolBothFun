@@ -21,7 +21,7 @@ class RoadNode:
             return str((self.leftWeight, self.midWeight, self.rightWeight))
 
 
-lenOfLane = 5
+lenOfLane = 20
 road = []
 #"""
 #shaves off lanes on the right
@@ -185,7 +185,7 @@ cars = [Car(2, 0, 1, 5, -10, 2, 0, [3,1]), Car(1, 0, 1, 5, -10, 5, 0, [0, 1]),
         Car(2, 0, 1, 5, -10, 2, 0, [9,1]), Car(1, 0, 1, 5, -10, 5, 0, [11, 1])]
 for car in cars:
    road[car.index[0]][car.index[1]].car = car
-printRoad(road)
+#printRoad(road)
 
 def advancement(road, actions):
     #advances all cars in the road
@@ -208,8 +208,8 @@ def advancement(road, actions):
             print "      accel: " + str(car.acceleration)
             cars.remove(car)
 
-timeSteps = 10
-curRoad = 0
+timeSteps = 100
+file = open("carPositions.txt", "w")
 for time in range(0, timeSteps):
     actions = []
     for car in cars:
@@ -217,3 +217,7 @@ for time in range(0, timeSteps):
     advancement(road, actions)
     print time
     printRoad(road)
+    for car in cars:
+        file.write(str(car) + "-")
+    file.write("\n")
+file.close()
