@@ -149,13 +149,12 @@ class Car:
                  x = car.index[0] + action.laneChange
                  y = car.index[1] + action.speedChange
                  if (x,y) in places:
-                     places[(x,y)) += utility
+                     places[(x,y)] += utility
                  else:
                      places[(x,y)] = utility
          # make dict saying where they will go, with counts
          # return that shit.
          return places
->>>>>>> 17ee67c8f6130ee64ccb18e6a826de43ff405b36
  
     def evaluate_action(self, action, utility,  actions_of_others):
         pos_x  = self.index[0] + action.speedChange
