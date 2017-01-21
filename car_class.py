@@ -20,7 +20,7 @@ class Action:
         self.speedChange = speedChange
         self.stopTime = stopTime
     def __repr__(self):
-        return "Action(" + str(self.laneChange) + ", " + str(self.speedChange) + ")"
+        return "Action(LaneChange: " + str(self.laneChange) + ", Speed: " + str(self.speedChange) + ")"
 
 # speed change can be either max acceleration down to full stop. 
 # A full stop is considered an accident.
@@ -36,10 +36,13 @@ class Car:
        law abiding_lane_changes in [0, 10]
     """
     
+    def __repr__(self):
+       return "Car " + str(self.index[0]) + " " + str(self.index[1]) + " " 
+    
     def __init__(self, speed, recklessness, following_distance,
                        acceleration, braking, law_abiding_speed, 
                        law_abiding_lane_changes,
-                       lane_spot_index):
+                       index):
         self.speed = speed
         self.recklessness = recklessness
         self.following_distance = following_distance
@@ -58,8 +61,11 @@ class Car:
         self.action_list = self.all_actions()
         likely_destinations = self.get_adjacent_cars_likely_destinations(board)
         best_actions = self.return_ten_best_actions(board)
-        return max([self.evaluate_action(action, utility, likely_destinations) for 
-                    (action, utility) in best_actions], key=lambda (m, u) :  -u)
+        actions = [self.evaluate_action(action, utility, likely_destinations) for 
+                    (action, utility) in best_actions]
+        print(actions)
+        a = max(actions, key = lambda (m,u): u)[0]
+        return a
 
 
     def return_ten_best_actions(self, board):
@@ -87,16 +93,17 @@ class Car:
         """
         #        Prefer staying in the lane unless the lane they are in
         #          terminates soon.
+        
         points = 0
         if action.laneChange == center:
             points += 10
 
         # Next to 'ifs' compute the 'cost' to switch to the lane
         if action.laneChange == right:
-            points += 8 / (2 ** board[car.index[0]][car.index[1]].rightWeight)
+            points += 8 / (2 ** board[self.index[0]][self.index[1]].rightWeight)
 
         if action.laneChange == left:
-            points += 8 /  (2 ** board[car.index[0]][car.index[1]].leftWeight)
+            points += 8 /  (2 ** board[self.index[0]][self.index[1]].leftWeight)
         # add a bit about -50 if the lane change cost is greater than lane_change_abiding
         desired_speed = 6 + self.law_abiding_speed
         after_action_speed = action.speedChange
@@ -113,7 +120,7 @@ class Car:
             else:
                 return -15
         # puts the right lane spot for examining how far too go. 
-        lane_index = car.index[1] + action.laneChange
+        lane_index = self.index[1] + action.laneChange
         # The next two 'ifs' set up whether the lane you are moving to (or are in)
         # is a good place to be.
         if lane_index > len(board[0]) or lane_index < 0:
@@ -137,11 +144,14 @@ class Car:
     
     def get_adjacent_cars_likely_destinations(self, board):
          # find rad 2 cars.
-         pos_s = [(x,y) for x in range(-2,3) for y in range(-2,3)
+         pos_s = [(x,y) for x in range(-2,3) for y in range(-5,5)
                   if 0 <= self.index[0] + x <= len(board) and 
                      0 <= self.index[1] + y <= len(board[0])
-                     and (x,y) == (0,0) ]
-         cars = [board[x][y] for (x,y) in pos_s if board[x][y] is not None]
+                     and (x,y) != (0,0) ]
+         # need to extra car if there is a car here
+         cars = [board[x][y].car for (x,y) in pos_s if board[x][y] is not None
+                                                   and board[x][y].car is not None]
+         print(len(cars))
          possible_moves = [(car, car.return_ten_best_actions(board)) for car in cars]
          places = {}
          for (car, car_moves) in possible_moves:
@@ -154,6 +164,7 @@ class Car:
                      places[(x,y)] = utility
          # make dict saying where they will go, with counts
          # return that shit.
+         print(places)
          return places
  
     def evaluate_action(self, action, utility,  actions_of_others):
@@ -162,5 +173,5 @@ class Car:
         o_score = 0
         if (pos_x, pos_y) in actions_of_others:
             o_score = actions_of_others[(pos_x,pos_y)] 
-        return (action, utility - o_score/2)
+        return (action, utility - o_score * 100)
 
