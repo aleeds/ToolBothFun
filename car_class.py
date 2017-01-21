@@ -9,8 +9,8 @@ heavy lifting.
 
 
 # The 'enums' for right, left, center
-right  =  1
-left   = -1
+right  = -1
+left   =  1
 center =  0
 
 # Action class, just used for constructing the actions.
@@ -52,23 +52,33 @@ class Car:
         
     # add a variable for self driving cars for them being more likely
     # to prefer the truly best action.
-    def move(self, lane):
-        return Action(center, self.speed, 0)
+    def move(self, board):
+        action = Action(center, self.speed, 0)
+        self.speed = action.speedChange
+        self.action_list = self.all_actions()
+        likely_destinations = self.get_adjacent_cars_likely_destinations(board)
+        best_actions = self.return_ten_best_actions(board)
+        return max([self.evaluate_action(action, utility, likely_destinations) for 
+                    (action, utility) in best_actions], key=lambda (m, u) :  -u)
 
 
-    def return_ten_best_actions(self, lane):
-        ls = [(action, self.evaluate_action_blind(lane, action))
+    def return_ten_best_actions(self, board):
+        ls = [(action, self.evaluate_action_blind(board, action))
               for action in self.action_list]
+        ls = [(a,b) for (a,b) in ls if b > -100]
         ls = sorted(ls, key = lambda (a,b) : -b)
-        return ls[0:10]
+        return ls[0:min(10, len(ls))]
 
     def all_actions(self):
         all_speeds = range(self.speed + self.acceleration + 1)
         all_lanes = [-1,0,1]
         return [Action(lane, speed, 0) for lane in all_lanes for speed in all_speeds]
-    # need to redo speed calculations, action_speed or whatever is the NEW SPEED
-    # need to incorporate the various parameters into the model
-    def evaluate_action_blind(self, lane, action):
+
+
+
+    # TODO need to incorporate the various parameters into the model
+    # TODO fix issues with lane_end (new type)
+    def evaluate_action_blind(self, board, action):
         """
         Checks the utility of the action ignoring the other cars. 
         It is used to predict the actions of other cars.
@@ -83,13 +93,13 @@ class Car:
 
         # Next to 'ifs' compute the 'cost' to switch to the lane
         if action.laneChange == right:
-            points += 8 / (2 ** lane.right[1])
+            points += 8 / (2 ** board[car.index[0]][car.index[1]].rightWeight)
 
         if action.laneChange == left:
-            points += 8 / (2 ** lane.left[1])
+            points += 8 /  (2 ** board[car.index[0]][car.index[1]].leftWeight)
         # add a bit about -50 if the lane change cost is greater than lane_change_abiding
         desired_speed = 6 + self.law_abiding_speed
-        after_action_speed = self.speed + action.speedChange
+        after_action_speed = action.speedChange
         # penalized for not being at the speed you like. 
         # The *1 is to make sure that people want to change lanes if 
         # they go too slow. Might want to make that a personality variable.
@@ -102,38 +112,55 @@ class Car:
                 return -10
             else:
                 return -15
-        # gets the lane to be the right one
-        lane_approaching = (lane, 0)
-        if action.laneChange == right:
-            lane_approaching = lane.right
-        elif action.laneChange == left:
-            lane_approaching = lane.left
+        # puts the right lane spot for examining how far too go. 
+        lane_index = car.index[1] + action.laneChange
         # The next two 'ifs' set up whether the lane you are moving to (or are in)
         # is a good place to be.
-        if lane_approaching == 0:
+        if lane_index > len(board[0]) or lane_index < 0:
             return -10001
-        if lane_approaching[0].lane_end == 0 and \
-           len(lane.lane_spots) < after_action_speed + self.lane_spot_index:
-               return -10002
-        # if they are near the end of a lane, they get penalities, and want to leave it.
-        if lane_approaching[0].lane_end == 0 and \
-           len(lane.lane_spots) < 2 * after_action_speed + self.lane_spot_index:
-               points += -5 
-        if lane_approaching[0].lane_end == 0 and \
-           len(lane.lane_spots) < 3 * after_action_speed + self.lane_spot_index:
-               points += -3
+        # This says: If the lane in front of you ends, and you go over it, its bad.
+        # If the lane 'continues' which means it doesn't end in a None, 
+        # its a happy place to go.
+        if board[-1][lane_index] is None:
+            if len(board) < (self.index[0] + after_action_speed):
+                return -10003
+            #if it is an illegal space, bad.
+            if board[self.index[0] + after_action_speed][lane_index] is None:
+                return -10002
+            # if they are near the end of a lane, they get penalities, and want to leave it.
+            if len(board) < 2 * after_action_speed + self.index[0]:
+                points += -5 
+            if len(board) < 3 * after_action_speed + self.index[0]:
+                  points += -3
 
         return points
     
-    def get_adjacent_cars_likely_destinations(self, lane):
-                 
+    def get_adjacent_cars_likely_destinations(self, board):
+         # find rad 2 cars.
+         pos_s = [(x,y) for x in range(-2,3) for y in range(-2,3)
+                  if 0 <= self.index[0] + x <= len(board) and 
+                     0 <= self.index[1] + y <= len(board[0])
+                     and (x,y) == (0,0) ]
+         cars = [board[x][y] for (x,y) in pos_s if board[x][y] is not None]
+         possible_moves = [(car, car.return_ten_best_actions(board)) for car in cars]
+         places = {}
+         for (car, car_moves) in possible_moves:
+             for (action, utility) in car_moves:
+                 x = car.index[0] + action.laneChange
+                 y = car.index[1] + action.speedChange
+                 if (x,y) in places:
+                     places[(x,y)) += utility
+                 else:
+                     places[(x,y)] = utility
+         # make dict saying where they will go, with counts
+         # return that shit.
+         return places
  
-    def evaluate_action(self, lane, action):
-        # returns the utility of the action, evaluating it relative
-        #  to the other cars. 
-        # Notes: Crash == 0
-        # gets neighboring cars (2 lanes left, 2 right, 1 forward)
-        #     This should be an argument       
-        # guesses where they will go, anywhere they will crash gets a
-        #   0. 
-        return "Incomplete"
+    def evaluate_action(self, action, utility,  actions_of_others):
+        pos_x  = self.index[0] + action.speedChange
+        pos_y = self.index[1] + action.laneChange
+        o_score = 0
+        if (pos_x, pos_y) in actions_of_others:
+            o_score = actions_of_others[(pos_x,pos_y)] 
+        return (action, utility - o_score/2)
+
