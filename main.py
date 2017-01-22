@@ -320,10 +320,3 @@ for L_p in [8,9, 10]:
 
 	with open("data_" + str(B)+ "_" + str(L) + ".json", "w+") as f:
 	    f.write(json.dumps(js_data))
-
-
-
-
-
-
-
