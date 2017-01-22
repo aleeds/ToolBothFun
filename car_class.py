@@ -67,7 +67,7 @@ class Car:
         actions = [self.evaluate_action(action, utility, likely_destinations) for 
                     (action, utility) in best_actions]
         actions = sorted(actions, key = lambda (a,u, o) : -u)
-        print(actions[0:3])
+        #print(actions[0:3])
         a = max(actions, key = lambda (m,u, o): u)[0]
         self.speed = a.speedChange
         return a
@@ -121,15 +121,15 @@ class Car:
         # will never ever slam into the end of a lane
         if after_action_speed == 0:
             if action.laneChange == center:
-                return -50
+                return -99
             else:
-                return -75
+                return -100
         # puts the right lane spot for examining how far too go. 
         lane_index = self.index[1] + action.laneChange
         # The next two 'ifs' set up whether the lane you are moving to (or are in)
         # is a good place to be.
         if lane_index >= len(board[0]) or lane_index < 0:
-            return -10001
+            return -100000000001
         # This says: If the lane in front of you ends, and you go over it, its bad.
         # If the lane 'continues' which means it doesn't end in a None, 
         # its a happy place to go.
