@@ -29,7 +29,11 @@ class LaneSegment:
 
     :arg lane_end 
         What it can progress into. 0 if it ends
-    :type (LaneSegment, int) OR TollBooth OR 0
+    :type (string, (LaneSegment, int) OR TollBooth OR 0)
+          The string is to identify where it can move to
+          string= "Lane" if LaneSegment
+                = "Toll" if TollBooth
+                = "Nill" if 0
     """
     def __init__(self, lane_spots, left, right, lane_end):
         self.lane_spots = lane_spots
