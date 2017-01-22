@@ -21,7 +21,7 @@ class RoadNode:
             return "< Road    " + str((self.leftWeight, self.midWeight, self.rightWeight)) + ">"
 
 
-lenOfLane = 20
+lenOfLane = 50
 road = []
 #"""
 #shaves off lanes on the right
