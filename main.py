@@ -249,11 +249,18 @@ def findNearestLaneEnd(road):
                 laneEnds[y] = x
                 break
     print laneEnds
+    return laneEnds
 printRoad(road)
 
 
+road_ends = findNearestLaneEnd(road)
 
 def findHCRI(cars, road):
+    # this is the rear end chunk
+
+
+    RE_serious = 0
+    RE_general = 0
     for car in cars:
         nearestCar = None
         for curIdx in range(car.index[0]+1, len(road)):
@@ -269,7 +276,32 @@ def findHCRI(cars, road):
             speedDiff = car.speed - nearestCar.speed
             print "dist: " + str(dist) + " sD: " + str(speedDiff) + " RE: " + str(float(dist)/speedDiff)
         RE = float(dist)/speedDiff
+        if 0 < RE < 2.3:
+            RE_serious += 1
+        elif 2.3 <= RE < 4.7:
+            RE_general += 1
         print (dist, str(car), RE)
+    # for lane change issues
+
+    LC_serious = 0
+    LC_general = 0
+    for car in cars:
+        if car.speed == 0:
+            break
+        cars_nearby = car.get_nearest_cars(road, range(-5,1), range(-1,2))
+        cars_near_speed = [car_near for car_near in cars_nearby 
+                                        if car_near.speed == car.speed]
+        
+        for car_near in cars_near_speed:
+            v =  (0.0 + road_ends[car.index[1]])/car.speed 
+            if 0 < v < 2.8:
+                LC_serious += 1
+            elif 2.8 <= v < 4.7:
+                LC_general += 1
+    return (0.65 * LC_serious + 0.35 * LC_general) * 0.46 + (0.62 * RE_serious + 0.38 * RE_general) * 0.54
+
+
+
 
 
 
@@ -281,7 +313,7 @@ print [(str(car), car.speed) for car in cars]
 
 
 lane_probabilities = [1.0]*8
-timeSteps = 0
+timeSteps = 100
 import random
 file = open("carPositions.txt", "w")
 for time in range(0, timeSteps):
@@ -302,8 +334,8 @@ for time in range(0, timeSteps):
         else:
             lane_probabilities[i] += 1.0/4
     
-
-    findHCRI(cars, road)
+    print("THE HCRI \n\n")
+    print(findHCRI(cars, road))
 
 
     for car in cars:
@@ -317,4 +349,4 @@ print" "
 print" "
 
 
-findNearestLaneEnd(road)
+#findNearestLaneEnd(road)

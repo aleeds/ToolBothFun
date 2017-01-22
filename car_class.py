@@ -162,7 +162,7 @@ class Car:
     
     def get_adjacent_cars_likely_destinations(self, board):
          # find rad 2 cars.
-         cars = self.get_nearest_cars(board, range(-10,10), range(-2,3))
+         cars = self.get_nearest_cars(board, range(-10,10), range(-3,4))
          possible_moves = [(car, car.return_ten_best_actions(board)) for car in cars]
          places = {}
          for (car, car_moves) in possible_moves:
