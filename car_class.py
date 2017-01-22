@@ -53,12 +53,10 @@ class Car:
         self.acceleration = acceleration
         self.law_abiding_speed = law_abiding_speed
         self.law_abiding_lane_changes = law_abiding_lane_changes
-                 
+        self.alive = 0                 
         self.index = index
         self.action_list = self.all_actions()
-        print("Cur Speed " + str(self.speed))
-        print("Law Baiding Speed " + str(law_abiding_speed))
-        print("Acceleration " + str(acceleration))
+    
     # add a variable for self driving cars for them being more likely
     # to prefer the truly best action.
     def move(self, board):
@@ -71,6 +69,7 @@ class Car:
         #print(actions[0:3])
         a = max(actions, key = lambda (m,u, o): u)[0]
         self.speed = a.speedChange
+        self.alive += 1
         return a
 
 
