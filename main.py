@@ -72,15 +72,6 @@ for x in range(0,lenOfLane):
         lstToAdd.append(None)
     road.append(lstToAdd)
 
-t = len(road[0])
-for i in road:
-    if len(i) != t:
-        print "\n\n\nNOT RECTANGLE\n\n\n"
-        t = -1
-        break
-
-if t == len(road[0]):
-    print "\n\nRECTANGLE\n\n"
 
 #"""
 
@@ -137,6 +128,7 @@ for x in range(0,lenOfLane):
 
 
 
+
 """
 #triangle shaped board
 for x in range(0,lenOfLane):
@@ -180,8 +172,15 @@ for x in range(0,lenOfLane):
     
 print ""
 def printRoad(road):
-    for row in road:
-        print [str(n) for n in row]
+    i = len(road) - 1
+    row = road[i]
+    while all(road == None or road.car == None for road in row):
+        i += -1
+        if i == -1:
+            break
+        row = road[i]
+    for q in range(0, i):
+        print [str(n) for n in road[q]]
 #printRoad(road)
 
 
@@ -205,16 +204,20 @@ for car in cars:
    road[car.index[0]][car.index[1]].car = car
 #printRoad(road)
 
+def gen_car():
+    return Car(0,0,1,3,-10,0,0,[0,0])
+
 def advancement(road, actions):
     #advances all cars in the road
-    print("Moves:\n\n")
+    #print("Moves:\n\n")
     actions = sorted(actions, key = lambda (car, carAction) : -(car.index[0] + carAction.speedChange))
     for (car, carAction) in actions:
         road[car.index[0]][car.index[1]].car = None
         a = car.index[0] + carAction.speedChange          
         b = car.index[1] + carAction.laneChange
         car.index = [a,b]
-        print (a,b)
+        #print("Where da car goes")
+        #print (a,b)
         try:
             road[car.index[0]][car.index[1]].car = car
         except IndexError:
@@ -224,8 +227,9 @@ def advancement(road, actions):
             print "      following dist: " + str(car.following_distance)
             print "      accel: " + str(car.acceleration)
             cars.remove(car)
-
+lane_probabilities = [1.0]*8
 timeSteps = 100
+import random
 file = open("carPositions.txt", "w")
 for time in range(0, timeSteps):
     actions = []
@@ -234,6 +238,18 @@ for time in range(0, timeSteps):
     advancement(road, actions)
     print time
     printRoad(road)
+    for i in range(len(lane_probabilities)):
+        if random.random() < lane_probabilities[i] and road[0][i].car == None:
+            car = gen_car()
+            car.index[0] = 0
+            car.index[1] = i
+            road[0][car.index[1]].car = car
+            cars.append(car)
+            lane_probabilities[i] = 1.0
+        else:
+            lane_probabilities[i] += 1.0/4
+
+
     for car in cars:
         file.write(str(car) + "-")
     file.write("\n")
