@@ -21,7 +21,7 @@ class RoadNode:
             return "< Road    " + str((self.leftWeight, self.midWeight, self.rightWeight)) + ">"
 
 
-lenOfLane = 20
+lenOfLane = 5
 road = []
 #"""
 #shaves off lanes on the right
@@ -181,7 +181,14 @@ def printRoad(road):
         row = road[i]
     for q in range(0, i):
         print [str(n) for n in road[q]]
-#printRoad(road)
+
+print "========"
+
+def printRoad2(road):
+    for row in road:
+        print [str(spot) for spot in row]
+printRoad2(road)
+
 
 
 
@@ -229,6 +236,23 @@ def advancement(road, actions):
             cars.remove(car)
 
 
+
+
+def findNearestLaneEnd(road):
+    laneEnds = {}
+    xLen = len(road)
+    yLen = len(road[0])
+    for y in range(0, yLen):
+        laneEnds[y] = 100000000
+        for x in range(0, len(road)):
+            if road[x][y] == None:
+                laneEnds[y] = x
+                break
+    print laneEnds
+printRoad(road)
+
+
+
 def findHCRI(cars, road):
     for car in cars:
         nearestCar = None
@@ -247,13 +271,17 @@ def findHCRI(cars, road):
         RE = float(dist)/speedDiff
         print (dist, str(car), RE)
 
+
+
+
+
 printRoad(road)
 findHCRI(cars, road)
 print [(str(car), car.speed) for car in cars]
 
 
 lane_probabilities = [1.0]*8
-timeSteps = 10
+timeSteps = 0
 import random
 file = open("carPositions.txt", "w")
 for time in range(0, timeSteps):
@@ -282,3 +310,11 @@ for time in range(0, timeSteps):
         file.write(str(car) + "-")
     file.write("\n")
 file.close()
+
+
+print" "
+print" "
+print" "
+
+
+findNearestLaneEnd(road)
