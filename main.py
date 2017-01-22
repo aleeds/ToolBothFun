@@ -21,7 +21,7 @@ class RoadNode:
             return "< Road    " + str((self.leftWeight, self.midWeight, self.rightWeight)) + ">"
 
 
-lenOfLane = 50
+lenOfLane = 20
 road = []
 #"""
 #shaves off lanes on the right
@@ -186,7 +186,11 @@ def printRoad(road):
 
 
 
-
+file = open("board.txt", "w")
+for row in road:
+    file.write(str([str(n) for n in row]))
+    file.write("\n")
+file.close()
 
 
 #car: speed, recklessness[0,1], following_distance[1,5], acceleration[1,3], braking, law_abiding_speed[-2,2],law_abiding_lane_changes[0,10],index
