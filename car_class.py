@@ -40,7 +40,8 @@ class Car:
     """
     
     def __repr__(self):
-       return "Car " + str(self.speed) + " " + str(self.index[1]) + " " 
+       #return "Car " + str(self.speed) + " " + str(self.index[1]) + " " 
+       return "Car " + str(self.index[0]) + " " + str(self.index[1])
     
     def __init__(self, speed, recklessness, following_distance,
                        acceleration, braking, law_abiding_speed, 
