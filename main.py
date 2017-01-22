@@ -227,8 +227,33 @@ def advancement(road, actions):
             print "      following dist: " + str(car.following_distance)
             print "      accel: " + str(car.acceleration)
             cars.remove(car)
+
+
+def findHCRI(cars, road):
+    for car in cars:
+        nearestCar = None
+        for curIdx in range(car.index[0]+1, len(road)):
+            if road[curIdx][car.index[1]] == None:
+                break
+            if road[curIdx][car.index[1]].car:
+                nearestCar = road[curIdx][car.index[1]].car
+                break
+        dist = 0
+        speedDiff = 1
+        if nearestCar and nearestCar.speed < car.speed:
+            dist = nearestCar.index[0] - car.index[0] - 1
+            speedDiff = car.speed - nearestCar.speed
+            print "dist: " + str(dist) + " sD: " + str(speedDiff) + " RE: " + str(float(dist)/speedDiff)
+        RE = float(dist)/speedDiff
+        print (dist, str(car), RE)
+
+printRoad(road)
+findHCRI(cars, road)
+print [(str(car), car.speed) for car in cars]
+
+
 lane_probabilities = [1.0]*8
-timeSteps = 100
+timeSteps = 10
 import random
 file = open("carPositions.txt", "w")
 for time in range(0, timeSteps):
@@ -248,6 +273,9 @@ for time in range(0, timeSteps):
             lane_probabilities[i] = 1.0
         else:
             lane_probabilities[i] += 1.0/4
+    
+
+    findHCRI(cars, road)
 
 
     for car in cars:
