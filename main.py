@@ -190,10 +190,10 @@ def readInBoard(fileName):
     return retRoad
 
 
-#road = readInBoard("road1")
+road = readInBoard("road1")
 #road = readInBoard("road2")
 #road = readInBoard("road3")
-road = readInBoard("road4")
+#road = readInBoard("road4")
 
 
 print ""
@@ -306,13 +306,13 @@ def findHCRI(cars, road):
         if nearestCar and nearestCar.speed < car.speed:
             dist = nearestCar.index[0] - car.index[0] - 1
             speedDiff = car.speed - nearestCar.speed
-            print "dist: " + str(dist) + " sD: " + str(speedDiff) + " RE: " + str(float(dist)/speedDiff)
+            #print "dist: " + str(dist) + " sD: " + str(speedDiff) + " RE: " + str(float(dist)/speedDiff)
         RE = float(dist)/speedDiff
         if 0 < RE < 2.3:
             RE_serious += 1
         elif 2.3 <= RE < 4.7:
             RE_general += 1
-        print (dist, str(car), RE)
+        #print (dist, str(car), RE)
     # for lane change issues
 
     LC_serious = 0
@@ -346,16 +346,18 @@ print [(str(car), car.speed) for car in cars]
 
 lane_probabilities = [1.0]*8
 total_HCRI = 0
-timeSteps = 0
+timeSteps = 360
 import random
 file = open("carPositions.txt", "w")
+file.write("Width: " + str(len(road[0])) + "\n")
+file.write("Height: " + str(len(road)) + "\n")
 for time in range(0, timeSteps):
     actions = []
     for car in cars:
         actions.append((car, car.move(road)))
     advancement(road, actions)
     print time
-    printRoad(road)
+    #printRoad(road)
     for i in range(len(lane_probabilities)):
         if random.random() < lane_probabilities[i] and road[0][i].car == None:
             car = gen_car()
