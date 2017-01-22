@@ -186,13 +186,14 @@ def readInBoard(fileName):
                 rowToAdd.append(rN)
             yIdx += 1
         xIdx += 1
-        print allTwos
         retRoad.append(rowToAdd)
     return retRoad
 
 
 #road = readInBoard("road1")
-road = readInBoard("road2")
+#road = readInBoard("road2")
+#road = readInBoard("road3")
+road = readInBoard("road4")
 
 
 print ""
@@ -345,7 +346,7 @@ print [(str(car), car.speed) for car in cars]
 
 lane_probabilities = [1.0]*8
 total_HCRI = 0
-timeSteps = 360
+timeSteps = 0
 import random
 file = open("carPositions.txt", "w")
 for time in range(0, timeSteps):
