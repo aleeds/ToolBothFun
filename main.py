@@ -21,7 +21,7 @@ class RoadNode:
             return "< Road    " + str((self.leftWeight, self.midWeight, self.rightWeight)) + ">"
 
 
-lenOfLane = 5
+lenOfLane = 20
 road = []
 #"""
 #shaves off lanes on the right
@@ -214,6 +214,7 @@ for car in cars:
 def gen_car():
     return Car(0,0,1,3,-10,0,0,[0,0])
 
+js_data = {"car_lifespan":[]}
 def advancement(road, actions):
     #advances all cars in the road
     #print("Moves:\n\n")
@@ -233,11 +234,12 @@ def advancement(road, actions):
             print "      recklessness: " + str(car.recklessness)
             print "      following dist: " + str(car.following_distance)
             print "      accel: " + str(car.acceleration)
+            js_data["car_lifespan"].append(car.alive)
             cars.remove(car)
 
 
 
-
+import json
 def findNearestLaneEnd(road):
     laneEnds = {}
     xLen = len(road)
@@ -313,7 +315,8 @@ print [(str(car), car.speed) for car in cars]
 
 
 lane_probabilities = [1.0]*8
-timeSteps = 100
+total_HCRI = 0
+timeSteps = 360
 import random
 file = open("carPositions.txt", "w")
 for time in range(0, timeSteps):
@@ -335,18 +338,22 @@ for time in range(0, timeSteps):
             lane_probabilities[i] += 1.0/4
     
     print("THE HCRI \n\n")
-    print(findHCRI(cars, road))
-
+    t = findHCRI(cars, road)
+    total_HCRI += t
 
     for car in cars:
         file.write(str(car) + "-")
     file.write("\n")
 file.close()
 
+print("\n\n\n\n\n\n\n\n\ntotalHCRI\n\n\n\n\n\n\n\n\n")
+print(total_HCRI)
 
 print" "
 print" "
 print" "
 
+with open("data.json", "w+") as f:
+    f.write(json.dumps(js_data))
 
 #findNearestLaneEnd(road)
