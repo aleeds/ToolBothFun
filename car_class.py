@@ -149,16 +149,20 @@ class Car:
                   points += -3
 
         return points
-    
-    def get_adjacent_cars_likely_destinations(self, board):
-         # find rad 2 cars.
-         pos_s = [(x,y) for x in range(-10,10) for y in range(-2,3)
+
+    def get_nearest_cars(self, board, x_range, y_range): 
+         pos_s = [(x,y) for x in x_range for y in y_range
                   if 0 <= self.index[0] + x < len(board) and 
                      0 <= self.index[1] + y < len(board[0])
                      and (x,y) != (0,0) ]
          # need to extra car if there is a car here
          cars = [board[x][y].car for (x,y) in pos_s if board[x][y] is not None
                                                    and board[x][y].car is not None]
+         return cars
+    
+    def get_adjacent_cars_likely_destinations(self, board):
+         # find rad 2 cars.
+         cars = self.get_nearest_cars(board, range(-10,10), range(-2,3))
          possible_moves = [(car, car.return_ten_best_actions(board)) for car in cars]
          places = {}
          for (car, car_moves) in possible_moves:
