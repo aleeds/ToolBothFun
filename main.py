@@ -179,9 +179,11 @@ def readInBoard(fileName):
             if spot == "0":
                 rowToAdd.append(None)
             elif spot == "1" or spot == "2":
-                rowToAdd.append(RoadNode(None, 0, 0, 0))
+                rN = RoadNode(None, 0, 0, 0)
                 if spot == "2":
-                    allTwos[(x,y)] = 0
+                    rN.leftWeight = 5
+                    rN.rightWeight = 5
+                rowToAdd.append(rN)
             yIdx += 1
         xIdx += 1
         print allTwos
