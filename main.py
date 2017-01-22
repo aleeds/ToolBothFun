@@ -23,7 +23,7 @@ class RoadNode:
 
 lenOfLane = 20
 road = []
-#"""
+"""
 #shaves off lanes on the right
 
 for x in range(0,lenOfLane):
@@ -73,7 +73,7 @@ for x in range(0,lenOfLane):
     road.append(lstToAdd)
 
 
-#"""
+"""
 
 """
 #shaves off lanes on the left
@@ -167,9 +167,32 @@ for x in range(0,lenOfLane):
 
 
 
+def readInBoard(fileName):
+    retRoad = []
+    file = open(fileName, "r")
+    allTwos = {}
+    xIdx = 0
+    for line in file:
+        rowToAdd = []
+        yIdx = 0
+        for spot in line:
+            if spot == "0":
+                rowToAdd.append(None)
+            elif spot == "1" or spot == "2":
+                rowToAdd.append(RoadNode(None, 0, 0, 0))
+                if spot == "2":
+                    allTwos[(x,y)] = 0
+            yIdx += 1
+        xIdx += 1
+        print allTwos
+        retRoad.append(rowToAdd)
+    return retRoad
 
 
-    
+#road = readInBoard("road1")
+road = readInBoard("road2")
+
+
 print ""
 def printRoad(road):
     i = len(road) - 1
@@ -184,11 +207,13 @@ def printRoad(road):
 
 print "========"
 
-def printRoad2(road):
+def printWholeRoad(road):
     for row in road:
         print [str(spot) for spot in row]
-printRoad2(road)
 
+
+
+printWholeRoad(road)
 
 
 
@@ -252,7 +277,9 @@ def findNearestLaneEnd(road):
                 break
     print laneEnds
     return laneEnds
-printRoad(road)
+
+
+#printRoad(road)
 
 
 road_ends = findNearestLaneEnd(road)
@@ -356,4 +383,9 @@ print" "
 with open("data.json", "w+") as f:
     f.write(json.dumps(js_data))
 
-#findNearestLaneEnd(road)
+
+
+
+
+
+
