@@ -121,7 +121,7 @@ class Car:
         # will never ever slam into the end of a lane
         if after_action_speed == 0:
             if action.laneChange == center:
-                return -99
+                return -100
             else:
                 return -100
         # puts the right lane spot for examining how far too go. 
