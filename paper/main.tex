@@ -326,11 +326,11 @@ We shall begin by discussing preliminary results. This consists primarily of dis
 
 In this preliminary section discussing bench marks, what will shall consider is \textit{only} different shapes, with varying number of tollbooths, and exiting lanes. First, we shall consider the simplest scenario, which is that the number of tollbooths (B) and the number of exiting lanes (L) are equal. We use L = 5 to examine this case where each tollbooth is an automated booth. While an unrealistic scenario for a toll plaza, we expected this to give us a useful upper bound on the throughput as well as a lower bound for travel time, allowing us to compute delays caused by merging.
 
-\begin{figure}
+\begin{figure}[H]
 \begin{center}
 \begin{tabular}{c c}
-\includegraphics[scale=0.25]{Images/5By5One.png} &
-\includegraphics[scale=0.25]{Images/5By5Two.png}
+\includegraphics[scale=0.2]{Images/5By5One.png} &
+\includegraphics[scale=0.2]{Images/5By5Two.png}
 \end{tabular}
 \end{center}
 \caption{These images represent traffic flow from 5 tollbooths into 5 highway lanes. The image on the right is one time step after the image on the left. The cars begin at the top and move towards the bottom.}
@@ -352,7 +352,7 @@ We calculated the throughput for this particular simulation to be 1682, that is,
 %%
 %
 
-Before considering statistics and such, consider Figure \ref{fig:5By5}. This is a visualization of our model, it shows the structure of the world space which the cars live in. As you can see here, the cars in this simulation live somewhere with no lanes ended. Other figures you will be able to see the shape of where the cars live, as well as approximately the density. 
+Before considering statistics, consider Figure \ref{fig:5By5}. This is a visualization of our model and shows the structure of the world space which the cars live in. As you can see here, the cars in this simulation live somewhere with no lanes ended. Other figures you will be able to see the shape of where the cars live, as well as approximately the density. 
 
 Consider Figure \ref{fig:ez55}, which shows the histograms of the travel times associated with this particular model. As you can see, this illustrates that the travel times are between 21 and 28 seconds for cars to reach the end of the toll plaza, 
 which corresponds to average speeds for each car between 36 mph and 50 mph, which seems reasonable. %%%%
@@ -371,7 +371,7 @@ The HCRI value was found to be 57. We adjust this risk index by dividing by the 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.2]{Images/55_ez.png}
+\includegraphics[scale=0.15]{Images/55_ez.png}
 \caption{Travel times for L = 5, B = 5 baseline case for automated tollbooths. Mean is 23.4 seconds. }
 \label{fig:ez55}
 \end{center}
@@ -379,7 +379,7 @@ The HCRI value was found to be 57. We adjust this risk index by dividing by the 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.2]{Images/55_man.png}
+\includegraphics[scale=0.15]{Images/55_man.png}
 \caption{Travel times for the L = 5, B = 5 baseline case for manual tollbooths. Mean is 22.5 seconds.}
 \label{fig:manual55}
 \end{center}
@@ -535,7 +535,7 @@ The main weakness of our model is that it is not continuous.  Due to computation
 
 %%ANDY AUTONOMOUS CAR
 
-A weakness of our model is the autonomous cars. Although they exhibit the behaviors of autonomous vehicles (rule following, speed matching, others), they do not distinguish themselves a sufficient amount from the `human' driven cars. This is a difficult problem for a micro-simulation or multi-agent system model, as both the human driven cars and the self-driven cars are at their core simulated by code. Therefore making a meaningful distinction is difficult. The behavior of the cars does 
+A weakness of our model is the autonomous cars. Although they exhibit the behaviors of autonomous vehicles (rule following, speed matching, others), they do not distinguish themselves a sufficient amount from the `human' driven cars. This is a difficult problem for a micro-simulation or multi-agent system model, as both the human driven cars and the self-driven cars are at their core simulated by code. Therefore making a meaningful distinction is difficult. The behavior of the cars does stand out, but not perhaps to the degree that is desirable. 
 %
 %
 %
@@ -543,7 +543,7 @@ A weakness of our model is the autonomous cars. Although they exhibit the behavi
 %
 Cost is a potential weakness in our final design. Since the structure takes up a greater area than traditional merge zones, this design could cost more to build. However, we believe that the open space could be put to a purpose that could lead to a more profitable toll area, offsetting the additional costs. 
 
-
+Finally, we were unable to definitively determine the reason that cars were able to travel faster in structures where B=L than in structures where B $<$L. This was counter to what we expected, but we suspect the reason is that each of our road designs would have a different capacity, or critical density. This would change the relationship between throughput and travel time. Given more time, we would have liked to identi 
 \subsection{Final Recommendation}
 \label{final_rec}
 
