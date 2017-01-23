@@ -78,8 +78,8 @@ printWholeRoad(road)
 lenOfLane = 100
 road = []
 
-for L_p in [5]:
-   for B_p in [5]:
+for L_p in [5, 8, 9, 10]:
+   for B_p in [3, 4, 5]:
         road = []
         if B_p > L_p:
             break
@@ -258,11 +258,11 @@ for L_p in [5]:
 
 
 
-	printRoad(road)
+	#printRoad(road)
 	findHCRI(cars, road)
 	print [(str(car), car.speed) for car in cars]
 
-	printWholeRoad(road)
+	#printWholeRoad(road)
 	lane_probabilities = [1.0]*B ############
 	total_HCRI = 0
 	timeSteps = 360
@@ -276,7 +276,7 @@ for L_p in [5]:
 		actions.append((car, car.move(road)))
 	    advancement(road, actions)
 	    print time
-	    printRoad(road)
+	    #printRoad(road)
 	    for i in range(len(lane_probabilities)):
                 t = random.random() < lane_probabilities[i]
                 assert(t)
