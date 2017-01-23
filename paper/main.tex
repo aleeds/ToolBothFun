@@ -333,7 +333,7 @@ In this preliminary section discussing bench marks, what will shall consider is 
 \includegraphics[scale=0.25]{Images/5By5Two.png}
 \end{tabular}
 \end{center}
-\caption{These images represent traffic flow from 5 tollbooths into 5 highway lanes from top to bottom. The image on the right is one time step after the image on the left. The cars begin at the top and move towards the bottom.}
+\caption{These images represent traffic flow from 5 tollbooths into 5 highway lanes. The image on the right is one time step after the image on the left. The cars begin at the top and move towards the bottom.}
 \label{fig:5By5}
 \end{figure}
 % Need to explain the visualization.
@@ -519,18 +519,35 @@ Since both relationships are linear, with pretty low changes, we can conclude th
 
 
 \subsection{Model Strengths}
-Our microsimulation exhibited key traffic features. Upon inspection, the cars moved at reasonable speeds and changed lane appropriately. No cars became stuck indefinitely. In fact, the travel times for all cars in our simulations were within seconds of each other, exhibiting no clear outliers. Collectively, cars sorted themselves efficiently through merging areas at low traffic levels. In high traffic, the roads surpassed their critical density and traffic jams began to occur. These features correspond to individual and collective behaviors exhibited by cars on highways. This behavior is emergent, it is not programmed into the simulation. This means that the individual intelligence of the drivers closely reflects real life drivers. 
+Our microsimulation exhibited key traffic features. Upon inspection, the cars moved at reasonable speeds and changed lane appropriately. No cars became stuck indefinitely. In fact, the travel times for all cars in our simulations were within seconds of each other, exhibiting no clear outliers. Collectively, cars sorted themselves efficiently through merging areas at low traffic levels. In high traffic, the roads surpassed their critical density and traffic jams began to occur. These features correspond to individual and collective behaviors exhibited by cars on highways. This behavior is emergent, it is not programmed into the simulation. This means that the individual intelligence of the drivers closely reflects real life drivers. Every macro-level property of our simulation is emergent from the individual optimization of each driver, just like real life traffic flow. This close reflection of reality, as well as the strong equilibrium which are reached is a great strength of our model. 
 
 Another strength of our simulation is that our final design, the split shape with enforced merging patterns, performed better in throughput, delay, and safety, compared to designs that are standard for toll plazas. We assess that these improvements may come at a greater cost to construct, but our design is flexible enough that we can create usable space between outer lanes for gas stations or rest areas. 
 
 \subsection{Model Weaknesses}
-The main weakness of our model is that it is not continuous. For the sake of computational cost
+The main weakness of our model is that it is not continuous.  Due to computational costs, we had to limit the number of nodes on our roads. This limited our ability to account for small differences among cars in acceleration, speed, and position. Since our nodes were 15 feet apart, it didn't make sense to account for the sizes of individual cars, which we would have liked to consider in our model. 
+
+%
+%
+%
+%
+%
+%
+
+%%ANDY AUTONOMOUS CAR
+
+A weakness of our model is the autonomous cars. Although they exhibit the behaviors of autonomous vehicles (rule following, speed matching, others), they do not distinguish themselves a sufficient amount from the `human' driven cars. This is a difficult problem for a micro-simulation or multi-agent system model, as both the human driven cars and the self-driven cars are at their core simulated by code. Therefore making a meaningful distinction is difficult. The behavior of the cars does 
+%
+%
+%
+%
+%
+Cost is a potential weakness in our final design. Since the structure takes up a greater area than traditional merge zones, this design could cost more to build. However, we believe that the open space could be put to a purpose that could lead to a more profitable toll area, offsetting the additional costs. 
 
 
 \subsection{Final Recommendation}
 \label{final_rec}
 
-Our recommended toll plaza design is distinct from other, more standard toll plazas. Instead of the standard toll plaza design where all of the lanes come together, we take them apart, as can be seen in Figure \ref{fig:48_split}. This approach can be generalized to all combinations of booth numbers and out lanes, simply by incrementally removing inner lanes, until on the outside we have as many lanes as desired. This design is very atypical, but our model indicates that it would be safer, because their are fewer lane changes. The design results in faster traffic as well, because the decreased number of lane changes means cars can spend more time getting up to speed. 
+Our recommended toll plaza design is distinct from other, more standard toll plazas. Instead of the standard toll plaza design where all of the lanes come together, we split the traffic flow, as can be seen in Figure \ref{fig:48_split}. This approach can be generalized to all combinations of number of tollbooths and number of ending lanes, simply by incrementally removing inner lanes, until on the outside we have as many lanes as desired. This design is very atypical, but our model indicates that it would be safer, because there are fewer lane changes. The design results in faster traffic as well, because the decreased number of lane changes means cars can spend more time getting up to speed. 
 
 This is our full and final recommendation, and we make it with no reserve. It is faster, with higher throughput, and it is much safer. Additionally, the space in the middle allows for amenities and utilities that are impossible in a typical toll plaza design. 
 
