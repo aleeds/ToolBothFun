@@ -75,10 +75,11 @@ printWholeRoad(road)
 
 
 
-lenOfLane = 10
+lenOfLane = 100
+road = []
 
-for L_p in [8,9, 10]:
-   for B_p in [3,4, 5]:
+for L_p in [5]:
+   for B_p in [5]:
         road = []
         if B_p > L_p:
             break
@@ -139,23 +140,10 @@ for L_p in [8,9, 10]:
 
 
 
-	file = open("board.txt", "w")
-	for row in road:
-	    file.write(str([str(n) for n in row]))
-	    file.write("\n")
-	file.close()
-
 
 	#car: speed, recklessness[0,1], following_distance[1,5], acceleration[1,3], braking, law_abiding_speed[-2,2],law_abiding_lane_changes[0,10],index
 
-	cars = [Car(0, 0, 1, 3, -10, 0, 0, [3,1]), Car(0, 0, 1, 3, -10, 0, 0, [0, 1]),
-		Car(0, 0, 1, 3, -10, 0, 0, [5,1]), Car(0, 0, 1, 3, -10, 0, 0, [7, 1]),
-		Car(0, 0, 1, 3, -10, 0, 0, [9,1]), Car(0, 0, 1, 3, -10, 0, 0, [11, 1]),
-		Car(0, 0, 1, 3, -10, 0, 0, [0,0]), Car(0, 0, 1, 3, -10, 0, 0, [1, 2]),
-		Car(0, 0, 1, 3, -10, 0, 0, [0,4]), Car(0, 0, 1, 3, -10, 0, 0, [0, 6]),
-		Car(0, 0, 1, 3, -10, 0, 0, [3,5]), Car(0, 0, 1, 3, -10, 0, 0, [1, 7])]
-	for car in cars:
-	   road[car.index[0]][car.index[1]].car = car
+        cars = []
 	#printRoad(road)
 
 	def gen_car():
@@ -275,20 +263,24 @@ for L_p in [8,9, 10]:
 	print [(str(car), car.speed) for car in cars]
 
 	printWholeRoad(road)
-	lane_probabilities = [1.0]*8
+	lane_probabilities = [1.0]*B ############
 	total_HCRI = 0
 	timeSteps = 360
 	import random
 	file = open("carPositions_" + str(B)+ "_" + str(L) + ".txt", "w")
+        file.write("Height: " + str(len(road[0])) + "\n")
+        file.write("Width: " + str(len(road)) + "\n")
 	for time in range(0, timeSteps):
 	    actions = []
 	    for car in cars:
 		actions.append((car, car.move(road)))
 	    advancement(road, actions)
 	    print time
-	    #printRoad(road)
+	    printRoad(road)
 	    for i in range(len(lane_probabilities)):
-		if random.random() < lane_probabilities[i] and road[0][i].car == None:
+                t = random.random() < lane_probabilities[i]
+                assert(t)
+		if  t and road[0][i].car == None:
 		    car = gen_car()
 		    car.index[0] = 0
 		    car.index[1] = i
