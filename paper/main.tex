@@ -1,5 +1,7 @@
 \documentclass[a4paper, 11pt]{article}
 
+\usepackage[margin=1.5in]{geometry}
+
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -140,7 +142,7 @@ But this world has two main downsides. The first downside is searching the area.
 
 The second world was a 2D array based structure where some locations are marked as out of bounds. This had several upsides, primarily that it was computationally efficient to search the layout, and that visualizing the system was easier. The downside is that more exotic merging patterns were not possible. 
 
-Ultimately the upsides of the 2D array based method won out, with the main choice being influenced by the computational efficiency, as well as the visualization. The visualization was distinctly important, as it allowed us to understand and debug the model as needed. 
+Ultimately the upsides of the 2D array based method won out, with the main choice being influenced by the computational efficiency, as well as the visualization. The visualization was distinctly important, as it allowed us to understand and debug the model as needed. Additionally, the use of a 2D array allowed us to define the distance between lattices as approximately 15 feet, and each timestep to have a length of 1 second. This means that high way speeds of 60 miles an hour corresponds to 6 units forward per second. Therefore our model allows for the cars to reach highway speeds. 
 
 
 \subsubsection{The AI Design Process}
@@ -352,7 +354,7 @@ We calculated the throughput for this particular simulation to be 1682, that is,
 %%
 %
 
-Before considering statistics, consider Figure \ref{fig:5By5}. This is a visualization of our model and shows the structure of the world space which the cars live in. As you can see here, the cars in this simulation live somewhere with no lanes ended. Other figures you will be able to see the shape of where the cars live, as well as approximately the density. 
+Before considering statistics, consider Figure \ref{fig:5By5}. This is a visualization of our model and shows the structure of the world space which the cars live in. As you can see here, the cars in this simulation live somewhere with no lanes ended. In other figures, you will be able to see the shape of where the cars live, as well as approximately the density. 
 
 Consider Figure \ref{fig:ez55}, which shows the histograms of the travel times associated with this particular model. As you can see, this illustrates that the travel times are between 21 and 28 seconds for cars to reach the end of the toll plaza, 
 which corresponds to average speeds for each car between 36 mph and 50 mph, which seems reasonable. %%%%
@@ -371,7 +373,7 @@ The HCRI value was found to be 57. We adjust this risk index by dividing by the 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.15]{Images/55_ez.png}
+\includegraphics[scale=0.25]{Images/55_ez.png}
 \caption{Travel times for L = 5, B = 5 baseline case for automated tollbooths. Mean is 23.4 seconds. }
 \label{fig:ez55}
 \end{center}
@@ -379,7 +381,7 @@ The HCRI value was found to be 57. We adjust this risk index by dividing by the 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.15]{Images/55_man.png}
+\includegraphics[scale=0.25]{Images/55_man.png}
 \caption{Travel times for the L = 5, B = 5 baseline case for manual tollbooths. Mean is 22.5 seconds.}
 \label{fig:manual55}
 \end{center}
@@ -396,15 +398,15 @@ It is important to note that this assessment only shows that there is lower risk
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.25]{Images/3By8LeftOne.png}
+\includegraphics[scale=0.203]{Images/3By8LeftOne.png}
 \end{center}
 \caption{The image represents traffic flow from 8 tollbooths into 3 highway lanes from top to bottom. }
 \label{fig:3By8RightTri}
 \end{figure}
 
-\begin{figure}[H]
+\begin{figure}
 \begin{center}
-\includegraphics[scale=0.3]{Images/hist_3_8.png}
+\includegraphics[scale=0.5]{Images/hist_3_8.png}
 \caption{A histogram showing the travel times for B = 8, L = 3. The delay times are relative to the benchmark for all manual tollbooths. Mean is 21.0 seconds.}
 \label{fig:manual38}
 \end{center}
@@ -435,7 +437,7 @@ The throughput is much higher though, at 1012 cars. Again we adjust for the numb
 \begin{figure}[H]
 \begin{center}
 \begin{tabular}{c c}
-\includegraphics[scale=0.25]{Images/4By8MidTriOne.png} & \includegraphics[scale=0.25]{Images/4By8MidTriTwo.png}
+\includegraphics[scale=0.23]{Images/4By8MidTriOne.png} & \includegraphics[scale=0.23]{Images/4By8MidTriTwo.png}
 \end{tabular}
 \end{center}
 \caption{The two images represent traffic flow from eight tollbooths into four traffic lanes, where the image on the right is one time step ahead of the image on the right. Where the cars stop appearing is where the traffic lane ends. }
@@ -480,7 +482,7 @@ In the Figure \ref{fig:merge_patterns}, you can see that the double white lines 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.32]{Images/DoubleWhiteLines.png}
+\includegraphics[scale=0.27]{Images/DoubleWhiteLines.png}
 \end{center}
 \caption{The image represents traffic flow from 8 tollbooths to 4 lanes with double white lines in place. The double white lines are represented by the bold black lines in the image. }
 \label{fig:merge_patterns}
@@ -543,7 +545,7 @@ A weakness of our model is the autonomous cars. Although they exhibit the behavi
 %
 Cost is a potential weakness in our final design. Since the structure takes up a greater area than traditional merge zones, this design could cost more to build. However, we believe that the open space could be put to a purpose that could lead to a more profitable toll area, offsetting the additional costs. 
 
-Finally, we were unable to definitively determine the reason that cars were able to travel faster in structures where B=L than in structures where B $<$L. This was counter to what we expected, but we suspect the reason is that each of our road designs would have a different capacity, or critical density. This would change the relationship between throughput and travel time. Given more time, we would have liked to identi 
+Finally, we were unable to definitively determine the reason that cars were able to travel faster in structures where B=L than in structures where B $<$L. This was counter to what we expected, but we suspect the reason is that each of our road designs would have a different capacity, or critical density. This would change the relationship between throughput and travel time. Given more time, we would have liked to identify the critical density of our designs, but this optimization would have required many more simulations than we could achieve in a short time.  
 \subsection{Final Recommendation}
 \label{final_rec}
 
