@@ -81,11 +81,11 @@
 \section{Introduction}
 \subsection{Problem}
 
-Every day millions of people drive on toll roads. Every second they spend wasting their time stuck in toll plazas merging is multiplied by how many drivers are on the road. This means that every day countless man-years are lost stuck in toll plazas. This means that by improving toll plaza efficiency even a little bit saves a lot, and every improvement counts. An easy way to improve toll plaza speed and safety is by making the toll plazas very wide. This is a problem though, because wide toll plazas would be dramatically expensive. Thus we need to optimize safety and throughput while making it as cheap as possible. 
+Every day millions of people drive on toll roads. Every second they spend wasting their time stuck in toll plazas merging is multiplied by how many drivers are on the road. This means that every day countless years of peoples lives are lost stuck in toll plazas. This means that improving toll plaza efficiency even a little bit saves a lot, and every improvement counts. An easy way to improve toll plaza speed and safety is by making the toll plazas very wide. This is a problem though, because wide toll plazas would be dramatically expensive. Thus we need to optimize safety and throughput while making it as cost effective as possible. 
 
 To perform this optimization, we have created a comprehensive artificial intelligence network to simulate cars driving through a toll plaza, including individual lane changing and optimizing for safety. This is considered a multi-agent system, where each agent is optimizing for itself, while still producing results that can be applied globally. In the traffic engineering terminology, it is a micro-simulation, as we are modeling traffic on the car level, rather than on a higher level. This means our results are applicable to a variety of scales. 
 
-When designing toll plazas, we considered two main factors. The first factor that we considered was shape. This is the overall structure of the toll plaza, and how they come together. The second factor was `merging patterns'. These were custom designed systems of double white lines and related structures to control the drivers to merge in a particular way and a particular time. 
+When designing toll plazas, we considered two main factors. The first factor that we considered was shape. This is the overall structure of the toll plaza, and how they come together. The second factor was `merging patterns'. These were custom designed systems of double white lines and related structures to influence the drivers to merge in a particular way at a particular time. 
 
 These two systems, our artificial intelligence, and our various toll plaza designs, allowed us to explore many different possibilities, and allowed us to find a toll plaza design that surpassed the most common design in every way measured. 
 
@@ -381,8 +381,8 @@ The HCRI value was found to be 57. We adjust this risk index by dividing by the 
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.25]{Images/55_man.png}
-\caption{Travel times for the L = 5, B = 5 baseline case for manual tollbooths. Mean is 22.5 seconds.}
+\includegraphics[scale=0.3]{Images/55_man.png}
+\caption{Travel times in seconds for the L = 5, B = 5 baseline case for manual tollbooths. Mean is 22.5 seconds.}
 \label{fig:manual55}
 \end{center}
 \end{figure}
@@ -398,7 +398,7 @@ It is important to note that this assessment only shows that there is lower risk
 
 \begin{figure}[H]
 \begin{center}
-\includegraphics[scale=0.203]{Images/3By8LeftOne.png}
+\includegraphics[scale=0.25]{Images/3By8LeftOne.png}
 \end{center}
 \caption{The image represents traffic flow from 8 tollbooths into 3 highway lanes from top to bottom. }
 \label{fig:3By8RightTri}
@@ -406,8 +406,8 @@ It is important to note that this assessment only shows that there is lower risk
 
 \begin{figure}
 \begin{center}
-\includegraphics[scale=0.5]{Images/hist_3_8.png}
-\caption{A histogram showing the travel times for B = 8, L = 3. The delay times are relative to the benchmark for all manual tollbooths. Mean is 21.0 seconds.}
+\includegraphics[scale=0.30]{Images/38hist.png}
+\caption{A histogram showing the travel times for B = 8, L = 3. The delay times (in seconds) are relative to the benchmark for all manual tollbooths. Mean is 21.0 seconds.}
 \label{fig:manual38}
 \end{center}
 \end{figure}
@@ -444,14 +444,14 @@ The throughput is much higher though, at 1012 cars. Again we adjust for the numb
 \label{fig:48_split}
 \end{figure}
 
-For an original shape, we first present what we have referred to as the 8-4 split system. It's topology can be seen in Figure  \ref{fig:48_split}. After the lanes split apart, the idea is that the lanes quickly comes together. This is not considered in our model, as any such design would have very simple merging procedures, as the lanes would simply come back together. 
+For an original shape, we first present what we have referred to as the 8-4 split system. It's topology can be seen in Figure  \ref{fig:48_split}. After the lanes split apart, the idea is that the lanes quickly comes together. This is not considered in our model, as any such design would have very simple merging procedures. 
 
 % Isaac, include the 48 split. Make a caption about how where the cars aren't is where the lanes end. Do a side by side one. 
 %     make sure the label is correct.
 
 %% Isaac can you read these two paragraphs and make sure they don't contradict each other... You might have to change some of the wording because I think they are both true and important... But I don't think both would seem possible to a reviewer. 
 
-This one was examined initially for several reasons. The primary reason was that we wanted drivers to have options as to where to go during the merging process. We suspected that the right triangle design was quite dangerous and inconvenient for cars in the booth farthest from the continuing lanes. We hypothesized that it would be much safer for cars in the center to change lanes because they would have to make fewer lane changes to arrive in a continuing lane and because they would be able to choose a direction after assessing traffic flow. This, we also thought, might improve travel times and throughput as well. 
+This one was examined initially for several reasons. The primary reason was that we wanted drivers to have more options as to where to go at several critical locations during the merging process. We suspected that the right triangle design was quite dangerous and inconvenient for cars in the booth farthest from the continuing lanes. We hypothesized that it would be much safer for cars in the center to change lanes because they would have to make fewer lane changes to arrive in a continuing lane and because they would be able to choose a direction after assessing traffic flow. This, we also thought, might improve travel times and throughput as well. 
 
 Upon careful examination of Figure \ref{fig:48_split}, it is apparent that the center division divides the traffic flow in half. This split means the drivers have less flexibility, which enables them to optimize better. This is a classic scenario in game theory, where each actor optimizing independently results in a worse situation for everyone, and therefore by limiting choices, the \textit{local} optimum more closely aligns with the \textit{global} optimum. This is indeed what we find happens. 
 
@@ -598,7 +598,7 @@ A classical problem for traffic engineering is the prevention of aggressive over
 \begin{figure}[H]
 \begin{center}
 \begin{tabular}{c c}
-\includegraphics[scale=0.125]{Images/4By8MidTriOne.png} & \includegraphics[scale=0.125]{Images/3By8LeftOne.png}
+\includegraphics[scale=0.25]{Images/4By8MidTriOne.png} & \includegraphics[scale=0.25]{Images/3By8LeftOne.png}
 \end{tabular}
 \end{center}
 \caption{In the images, the cars are moving from top to bottom with the tollbooths at the top of the images. The left image represents our exotic new toll plaza design while the image of the right is a more standard toll plaza.}
